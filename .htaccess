@@ -1,0 +1,17 @@
+DirectoryIndex beranda.php
+
+RewriteEngine On
+
+# Redirect to PHP files without showing the extension in the URL
+RewriteCond %{THE_REQUEST} \s/+(.*?/)?(?:index)?(.*?)\.php[\s?/] [NC]
+RewriteRule ^ /%1%2 [R=301,L,NE]
+
+# Prevent direct access to PHP files
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^ %{REQUEST_URI}.php [L]
+
+# Rewrite URLs to add .php extension internally
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^(.+?)/?$ /$1.php [L]
